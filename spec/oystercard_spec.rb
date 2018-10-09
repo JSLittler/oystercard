@@ -20,15 +20,22 @@ describe Oystercard do
   end
 
   it 'should change status when touched in at start of journey' do
+    subject.top_up(10)
     expect{ subject.touch_in }.to change{ subject.status }.to eq true
   end
 
   it 'should change status when touched out at end of journey' do
+    subject.top_up(10)
     subject.touch_in
     expect{ subject.touch_out }.to change{ subject.status }.to eq false
   end
 
   it 'should report being in a journey or not' do
   expect(subject.journey?).to eq(true).or eq(false)
+  end
+
+  it "should raise an error if touching in with balance less than the minimum amount " do
+    minimum_balance = Oystercard::MIN_BALANCE
+    expect{subject.touch_in}.to raise_error "Balance below #{minimum_balance}"
   end
 end
