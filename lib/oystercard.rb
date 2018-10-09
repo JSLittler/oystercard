@@ -20,7 +20,7 @@ class Oystercard
   end
 
   def touch_in
-    fail "Balance below #{MIN_BALANCE}" if @balance < MIN_BALANCE
+    fail "Balance below #{MIN_BALANCE}" if self.check_balance < MIN_BALANCE
     @status = true
   end
 
@@ -32,7 +32,8 @@ class Oystercard
     @status
   end
 
-
-
+  def check_balance
+    @balance
+  end
 
 end
