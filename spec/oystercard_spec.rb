@@ -9,7 +9,7 @@ end
 
   
 describe Oystercard do
-  
+
   before(:each) { subject.top_up(10) }
 
   it 'should allow us to top_up the card balance' do
@@ -19,10 +19,6 @@ describe Oystercard do
   it 'should not allow us to have a balance of greater than 90' do
     maximum_balance = Oystercard::MAX_BALANCE
     expect{ subject.top_up(100) }.to raise_error "Max balance of #{ maximum_balance }."
-  end
-
-  it 'should deduct the fare from my card' do
-  expect{ subject.pay(5) }.to change{ subject.balance }.by -5
   end
 
   it 'should change status when touched in at start of journey' do
@@ -42,5 +38,10 @@ describe Oystercard do
     allow(subject).to receive(:check_balance) { 0 }
     minimum_balance = Oystercard::MIN_BALANCE
     expect{subject.touch_in}.to raise_error "Balance below #{minimum_balance}"
+  end
+
+  it "should deduct a fare at the end of a journey" do
+    minimum_charge = Oystercard::MIN_CHARGE
+    expect{ subject.touch_out }.to change{ subject.balance }.by(- minimum_charge)
   end
 end
