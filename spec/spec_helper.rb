@@ -98,6 +98,6 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 =end
 
-onfig.color = true
+config.color = true
   config.formatter = :documentation # :progress, :html, :textmate
 end
