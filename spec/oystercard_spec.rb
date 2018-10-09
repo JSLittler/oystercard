@@ -19,4 +19,16 @@ describe Oystercard do
   expect{ subject.pay(5) }.to change{ subject.balance }.by -5
   end
 
+  it 'should change status when touched in at start of journey' do
+    expect{ subject.touch_in }.to change{ subject.status }.to eq true
+  end
+
+  it 'should change status when touched out at end of journey' do
+    subject.touch_in
+    expect{ subject.touch_out }.to change{ subject.status }.to eq false
+  end
+
+  it 'should report being in a journey or not' do
+  expect(subject.journey?).to eq(true).or eq(false)
+  end
 end
