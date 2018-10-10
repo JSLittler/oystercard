@@ -4,11 +4,13 @@ class Oystercard
   MIN_BALANCE = 1
   MIN_CHARGE = 1
 
-  attr_reader :balance, :status, :starting_station
+  attr_reader :balance, :status, :starting_station, :journey_history
   
   def initialize
     @balance = 0
     @status = false
+    @journey = {}
+    @journey_history = []
     @starting_station = nil
   end
 
@@ -23,10 +25,15 @@ class Oystercard
     @starting_station = name
   end
 
-  def touch_out
+  def touch_out(name)
     pay(MIN_CHARGE)
+    @end_station = name
+    @journey = { "starting_station" => @starting_station, "end_station" => @end_station }
     @status = false
     @starting_station = nil
+    @end_station = nil
+    @journey_history.push(@journey)
+    @journey
   end
 
   def journey?
